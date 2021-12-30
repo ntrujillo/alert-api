@@ -1,0 +1,11 @@
+{
+  "lambda": {
+    "role": "alert-api-executor",
+    "name": "alert-api",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "82nmk4u6zk",
+    "module": "api"
+  }
+}
