@@ -22,17 +22,17 @@ function getAlert(enteId, alertId) {
 
 function getAlertByEnte(enteId) {
     console.log(`start getAlertByEnte: ${enteId}`)
-    var queryExpression = {
+    let queryExpression = {
         TableName,
         KeyConditionExpression: '#enteId = :enteId',
         FilterExpression: "#endDate > :today",
         ExpressionAttributeNames: { "#enteId": "enteId", '#endDate': 'endDate' },
         ExpressionAttributeValues: {
             ':enteId': enteId,
-            ':today': new Date()
+            ':today': new Date().toISOString()
         }
     };
-    return docClient.scan(queryExpression).promise()
+    return docClient.query(queryExpression).promise()
         .then(result => {
             return result.Items;
         })
