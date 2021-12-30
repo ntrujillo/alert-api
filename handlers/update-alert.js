@@ -1,21 +1,20 @@
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
+const TableName = 'cobis_alert';
+
 function updateAlert(enteId, alertId, options) {
     if (!options)
         throw new Error('Body is required')
 
     return docClient.update({
-        TableName: 'alert',
-        Key: {
-            enteId: Number(enteId),
-            alertId: alertId
-        },
-        UpdateExpression: 'set readed=:re',
+        TableName,
+        Key: { enteId, alertId },
+        UpdateExpression: 'set readed=:readed',
         ExpressionAttributeValues: {
-            ':re': options.readed || false,
+            ':readed': options.readed,
         },
-        ReturnValues: 'ALL_NEW'
+        ReturnValues: 'UPDATED_NEW'
     }).promise()
         .then((result) => {
             console.log('Alert is updated!', result)
