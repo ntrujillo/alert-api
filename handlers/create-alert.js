@@ -2,24 +2,26 @@ const AWS = require('aws-sdk')
 const docClient = new AWS.DynamoDB.DocumentClient();
 const uuid = require('uuid').v4;
 
+const TableName = 'cobis_alert';
+
 function createAlert(enteId, request) {
     if (!request || !request.label || !request.description)
         throw new Error('To send an alert enteId, label and description are required')
 
     return docClient.put({
-        TableName: 'alert',
+        TableName,
         Item: {
             enteId: Number(enteId),
             alertId: uuid(),
-            icon: request.icon,
-            type: request.type,
+            startDate: request.startDate,
+            endDate: request.endDate,
+            validPeriod: request.validPeriod,
             label: request.label,
             description: request.description,
-            date: request.date,
+            receiver: request.receiver,
             readed: request.readed,
-            priority: request.priority,
-            period: request.period,
-            status: 'OPEN'
+            alertType: request.alertType,
+            alertPriority: request.alertPriority
         }
     }).promise()
         .then((res) => {

@@ -1,9 +1,11 @@
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
+const TableName = 'cobis_alert';
+
 function deleteAlert(enteId, alertId) {
     return docClient.delete({
-        TableName: 'alert',
+        TableName,
         Key: {
             enteId: Number(enteId),
             alertId: alertId
